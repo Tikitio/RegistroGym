@@ -7,8 +7,10 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
-$routes->get('usuarios', 'Usuarios::index');
-$routes->get('usuarios/new', 'Usuarios::new');
+// $routes->get('usuarios', 'Usuarios::index');
+// $routes->get('usuarios/new', 'Usuarios::new');
+
+$routes->resource('usuarios', ['placeholder' => '(:num)', 'except' => 'show']);
 
 $routes->get('instructores', 'Instructores::index');
 $routes->get('instructores/new', 'Instructores::new');

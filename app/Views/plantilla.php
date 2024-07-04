@@ -11,8 +11,10 @@
     <link href="css/estilo.css" rel="stylesheet">
 </head>
 
-<body class="d-flex flex-column h-100">
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+<body class="d-flex flex-column h-100" style="background-color: #F8F6F3;">
+
+<!-- CONTENIDO DEL NAVBAR -->
+<nav class="navbar navbar-expand-lg bg-ligth" style="background-color: #FFFFFF;">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,8 +23,7 @@
     <div class="collapse navbar-collapse" id="navbarColor02">
       <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="<?= base_url('usuarios'); ?>">Usuarios
-            <span class="visually-hidden">(current)</span>
+          <a class="nav-link" href="<?= base_url('usuarios'); ?>">Usuarios
           </a>
         </li>
         <li class="nav-item">
@@ -39,6 +40,7 @@
     </div>
   </div>
 </nav>
+
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">

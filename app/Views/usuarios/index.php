@@ -2,7 +2,7 @@
 
 <?= $this->section('contenido'); ?>
 
-<table style="width: 100%; background-color: Gainsboro;">
+<table style="width: 100%; background-color: LightSeaGreen;">
     <tr>
         <!-- Celda vacía para margen izquierdo -->
         <td style="width: 10px;">&nbsp;</td>
@@ -20,9 +20,6 @@
     </tr>
 </table>
 
-
-
-
 <table class="table table-hover table-bordered my-3" aria-describedby="titulo">
     <thead class="table">
         <tr>
@@ -36,7 +33,20 @@
     </thead>
 
     <tbody>
-        <tr>
+
+ <?php foreach($usuarios as $usuario) : ?>
+    <tr>
+            <td><?= $usuario['id']; ?></td>
+            <td><?= $usuario['nombres']; ?></td>
+            <td><?= $usuario['apellidos']; ?></td>
+            <td><?= $usuario['sexo']; ?></td>
+            <td><?= $usuario['telefono']; ?></td>
+            <td> <a href="<?= base_url('usuarios/' . $usuario['id'] . '/edit'); ?>" class="btn btn-warning btn-sm me-2">Editar</a></td>
+ </tr>
+    
+    <?php endforeach; ?>
+
+        <!-- <tr>
             <td>12345</td>
             <td>JUAN PEREZ</td>
             <td>0123456789</td>
@@ -48,7 +58,7 @@
                 <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                     data-bs-target="#eliminaModal" data-bs-id="1">Eliminar</button>
             </td>
-        </tr>
+        </tr> -->
 
     </tbody>
 </table>

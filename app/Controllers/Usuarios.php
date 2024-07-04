@@ -1,86 +1,89 @@
 <?php
-
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\UsuariosModel;
 
 class Usuarios extends BaseController
 {
-    /**
-     * Return an array of resource objects, themselves in array format.
-     *
-     * @return ResponseInterface
-     */
+    protected $helpers = ['form'];
+
     public function index()
     {
-        return view('usuarios/index'); 
+        $UsuariosModel = new UsuariosModel();
+        $data['usuarios'] = $UsuariosModel->findAll();
+
+        return view('usuarios/index', $data);
     }
 
-    /**
-     * Return the properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function show($id = null)
-    {
-        //
-    }
-
-    /**
-     * Return a new resource object, with default properties.
-     *
-     * @return ResponseInterface
-     */
     public function new()
     {
-        return view('usuarios/nuevo'); 
+        return view('usuarios/nuevo');
     }
 
-    /**
-     * Create a new resource object, from "posted" parameters.
-     *
-     * @return ResponseInterface
-     */
     public function create()
     {
-        //
+        $reglas =[
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required',
+            'telefono' => 'required',
+        ];
+
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $post = $this->request->getPost(['nombres', 'apellidos', 'sexo', 'telefono']);
+        $UsuariosModel = new UsuariosModel();
+        $UsuariosModel->insert([
+            'nombres' => $post['nombres'],
+            'apellidos' => $post['apellidos'],
+            'sexo' => $post['sexo'],
+            'telefono' => $post['telefono'],
+        ]);
+
+        return redirect()->to('usuarios');
     }
 
-    /**
-     * Return the editable properties of a resource object.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function edit($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->route('usuarios');
+        }
+
+        $UsuariosModel = new UsuariosModel();
+        $data['usuario'] = $UsuariosModel->find($id);
+
+        return view('usuarios/editar', $data);
     }
 
-    /**
-     * Add or update a model resource, from "posted" properties.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
     public function update($id = null)
     {
-        //
-    }
+        if (!$this->request->is('put') || $id == null) {
+            return redirect()->route('usuarios');
+        }
 
-    /**
-     * Delete the designated resource object from the model.
-     *
-     * @param int|string|null $id
-     *
-     * @return ResponseInterface
-     */
-    public function delete($id = null)
-    {
-        //
+        $reglas = [
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required',
+            'telefono' => 'required',
+        ];
+
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $post = $this->request->getPost(['nombres', 'apellidos', 'sexo', 'telefono']);
+        $UsuariosModel = new UsuariosModel();
+        $UsuariosModel->update($id, [
+            'nombres' => $post['nombres'],
+            'apellidos' => $post['apellidos'],
+            'sexo' => $post['sexo'],
+            'telefono' => $post['telefono'],
+        ]);
+
+        return redirect()->to('usuarios');
     }
 }
