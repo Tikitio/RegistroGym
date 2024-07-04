@@ -8,9 +8,13 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 $routes->get('usuarios', 'Usuarios::index');
+$routes->get('usuarios/new', 'Usuarios::new');
 
 $routes->get('instructores', 'Instructores::index');
+$routes->get('instructores/new', 'Instructores::new');
 
 $routes->get('clases', 'Clases::index');
+$routes->get('clases/new', 'Clases::new');
 
 $routes->get('inscripciones', 'Inscripciones::index');
+$routes->get('inscripciones/new', 'Inscripciones::new');

@@ -35,7 +35,7 @@ class Clases extends BaseController
      */
     public function new()
     {
-        //
+        return view('clases/nuevo'); 
     }
 
     /**

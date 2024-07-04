@@ -35,7 +35,7 @@ class Usuarios extends BaseController
      */
     public function new()
     {
-        //
+        return view('usuarios/nuevo'); 
     }
 
     /**

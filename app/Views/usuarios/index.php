@@ -12,7 +12,7 @@
             <h3 class="my-3" id="titulo">Lista De Usuarios</h3>
         </td>
         <td style="text-align: right;">
-            <a href="nuevo.html" class="btn btn-success">Agregar</a>
+            <a href="<?= base_url('usuarios/new'); ?>" class="btn btn-success">Agregar</a>
         </td>
         
         <!-- margen derecho -->

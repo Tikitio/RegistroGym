@@ -35,7 +35,7 @@ class Inscripciones extends BaseController
      */
     public function new()
     {
-        //
+        return view('inscripciones/nuevo'); 
     }
 
     /**

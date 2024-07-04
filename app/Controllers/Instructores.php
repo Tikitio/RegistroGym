@@ -35,7 +35,7 @@ class Instructores extends BaseController
      */
     public function new()
     {
-        //
+        return view('instructores/nuevo'); 
     }
 
     /**
