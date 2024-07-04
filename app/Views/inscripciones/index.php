@@ -1,7 +1,6 @@
 <?php echo $this->extend('plantilla'); ?>
 
 <?= $this->section('contenido'); ?>
-
 <table style="width: 100%; background-color: Gainsboro;">
     <tr>
         <!-- Celda vacía para margen izquierdo -->
@@ -9,7 +8,7 @@
         
         <!-- Contenido de la tabla -->
         <td>
-            <h3 class="my-3" id="titulo">Lista De Usuarios</h3>
+            <h3 class="my-3" id="titulo">Lista De Instructores</h3>
         </td>
         <td style="text-align: right;">
             <a href="nuevo.html" class="btn btn-success">Agregar</a>
