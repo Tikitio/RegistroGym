@@ -41,26 +41,53 @@
             <td><?= $usuario['apellidos']; ?></td>
             <td><?= $usuario['sexo']; ?></td>
             <td><?= $usuario['telefono']; ?></td>
-            <td> <a href="<?= base_url('usuarios/' . $usuario['id'] . '/edit'); ?>" class="btn btn-warning btn-sm me-2">Editar</a></td>
- </tr>
-    
-    <?php endforeach; ?>
+            <td> <a href="<?= base_url('usuarios/' . $usuario['id'] . '/edit'); ?>" class="btn btn-warning btn-sm me-2">Editar</a>
 
-        <!-- <tr>
-            <td>12345</td>
-            <td>JUAN PEREZ</td>
-            <td>0123456789</td>
-            <td>JUANPEREZ@DOMINIO.COM</td>
-            <td>RECURSOS HUMANOS</td>
-            <td>
-                <a href="edita.html" class="btn btn-warning btn-sm me-2">Editar</a>
-
-                <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#eliminaModal" data-bs-id="1">Eliminar</button>
-            </td>
-        </tr> -->
+ <!-- Botón que abre el modal -->
+<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminaModal" data-bs-url="<?= base_url('usuarios/' . $usuario['id']); ?>">Eliminar</button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
 
     </tbody>
 </table>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal fade" id="eliminaModal" tabindex="-1" aria-labelledby="eliminaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eliminaModalLabel">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Estás seguro de que deseas eliminar este usuario?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" action="" method="post">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?= $this->endSection(); ?>
+
+<?= $this->section('script'); ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var eliminaModal = document.getElementById('eliminaModal');
+    eliminaModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var url = button.getAttribute('data-bs-url');
+        var form = document.getElementById('deleteForm');
+        form.action = url;
+    });
+});
+</script>
 
 <?= $this->endSection(); ?>

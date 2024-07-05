@@ -86,4 +86,23 @@ class Usuarios extends BaseController
 
         return redirect()->to('usuarios');
     }
+/**
+     * Delete the designated resource object from the model.
+     *
+     * @param int|string|null $id
+     *
+     * @return ResponseInterface
+     */
+    public function delete($id = null)
+    {
+        if ($id == null) {
+            return redirect()->route('usuarios');
+        }
+    
+        $UsuariosModel = new UsuariosModel();
+        $UsuariosModel->delete($id);
+    
+        return redirect()->to('usuarios');
+    }    
 }
+
