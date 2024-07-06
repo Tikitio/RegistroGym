@@ -17,23 +17,19 @@ class Usuarios extends Migration
             ],
             'nombres' => [
                 'type' => 'VARCHAR',
-                'constraint' => 60,
+                'constraint' => 50,
             ],
-            'ap_paterno' => [
+            'apellidos' => [
                 'type' => 'VARCHAR',
-                'constraint' => 60,
-            ],
-            'ap_materno' => [
-                'type' => 'VARCHAR',
-                'constraint' => 60,
+                'constraint' => 50,
             ],
             'sexo' => [
-                'type' => 'CHAR',
-                'NULL' => true,
+                'type' => 'TINYINT',
+                'constraint' => 5,
             ],
             'telefono' => [
                 'type' => 'VARCHAR',
-                'constraint' => 60,
+                'constraint' => 15,
             ],
         ]);
 

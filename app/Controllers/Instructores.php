@@ -3,9 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\EspecialidadesModel;
+use App\Models\InstructoresModel;
 
 class Instructores extends BaseController
 {
+    protected $helpers = ['form'];
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -13,7 +16,15 @@ class Instructores extends BaseController
      */
     public function index()
     {
-        return view('instructores/index'); 
+        $InstructoresModel = new InstructoresModel();
+        $data['instructores'] = $InstructoresModel->instructoresEspecialidades();
+
+        // función getSexo
+        foreach ($data['instructores'] as &$instructor) {
+            $instructor['sexo'] = $InstructoresModel->getSexo($instructor['sexo']);
+        }
+
+        return view('instructores/index', $data); 
     }
 
     /**
@@ -35,7 +46,10 @@ class Instructores extends BaseController
      */
     public function new()
     {
-        return view('instructores/nuevo'); 
+        $EspecialidadesModel = new EspecialidadesModel();
+        $data['especialidades'] = $EspecialidadesModel->findAll();
+
+        return view('instructores/nuevo', $data); 
     }
 
     /**
@@ -45,7 +59,30 @@ class Instructores extends BaseController
      */
     public function create()
     {
-        //
+        $reglas =[
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required',
+            'id_especialidad' => 'required|is_not_unique[especialidades.id]',
+            'telefono' => 'required',
+
+        ];
+
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $post = $this->request->getPost(['nombres', 'apellidos', 'sexo', 'id_especialidad', 'telefono']);
+        $InstructoresModel = new InstructoresModel();
+        $InstructoresModel->insert([
+            'nombres' => $post['nombres'],
+            'apellidos' => $post['apellidos'],
+            'sexo' => $post['sexo'],
+            'id_especialidad' => $post['id_especialidad'],
+            'telefono' => $post['telefono'],
+        ]);
+
+        return redirect()->to('instructores');
     }
 
     /**
@@ -57,7 +94,17 @@ class Instructores extends BaseController
      */
     public function edit($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->route('instructores');
+        }
+        
+        $InstructoresModel = new InstructoresModel();
+        $EspecialidadesModel = new EspecialidadesModel();
+    
+        $data['especialidades'] = $EspecialidadesModel->findAll(); // Carga todas las especialidades
+        $data['instructor'] = $InstructoresModel->find($id); // Carga el instructor específico
+        
+        return view('instructores/editar', $data);
     }
 
     /**
@@ -69,7 +116,33 @@ class Instructores extends BaseController
      */
     public function update($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->to('instructores');
+        }
+    
+        $reglas =[
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'sexo' => 'required',
+            'id_especialidad' => 'required|is_not_unique[especialidades.id]',
+            'telefono' => 'required',
+        ];
+    
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+    
+        $post = $this->request->getPost(['nombres', 'apellidos', 'sexo', 'id_especialidad', 'telefono']);
+        $InstructoresModel = new InstructoresModel();
+        $InstructoresModel->update($id, [
+            'nombres' => $post['nombres'],
+            'apellidos' => $post['apellidos'],
+            'sexo' => $post['sexo'],
+            'id_especialidad' => $post['id_especialidad'],
+            'telefono' => $post['telefono'],
+        ]);
+    
+        return redirect()->to('instructores');
     }
 
     /**
@@ -81,6 +154,14 @@ class Instructores extends BaseController
      */
     public function delete($id = null)
     {
-        //
-    }
-}
+        if ($id == null) {
+            return redirect()->route('instructores');
+        }
+    
+        $InstructoresModel = new InstructoresModel();
+        $InstructoresModel->delete($id);
+    
+        return redirect()->to('instructores');
+    }    
+ }
+

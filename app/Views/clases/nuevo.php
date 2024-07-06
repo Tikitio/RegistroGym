@@ -1,48 +1,47 @@
 <?php echo $this->extend('plantilla'); ?>
 
 <?= $this->section('contenido'); ?>
+<br><br><br>
 
-<h3 class="my-3">Nuevo empleado</h3>
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Nueva Clase</h3>
 
-<form action="#" class="row g-3" method="post" autocomplete="off">
-
-    <div class="col-md-4">
-        <label for="clave" class="form-label">Clave</label>
-        <input type="text" class="form-control" id="clave" name="clave" required autofocus>
-    </div>
-
-    <div class="col-md-8">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required>
-    </div>
-
-    <div class="col-md-6">
-        <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
-        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
-    </div>
-
-    <div class="col-md-6">
-        <label for="telefono" class="form-label">Teléfono</label>
-        <input type="telefono" class="form-control" id="telefono" name="telefono" required>
-    </div>
-
-    <div class="col-md-6">
-        <label for="correo_electronico" class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control" id="correo_electronico" name="correo_electronico">
-    </div>
-
-    <div class="col-md-6">
-        <label for="departamento" class="form-label">Departamento</label>
-        <select class="form-select" id="departamento" name="departamento" required>
-            <option value="">Seleccionar</option>
-        </select>
-    </div>
-
-    <div class="col-12">
-        <a href="index.html" class="btn btn-secondary">Regresar</a>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-
-</form>
+    <form action="#" method="post" autocomplete="off">
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 10px; vertical-align: top;">
+                    <label for="instructor" style="display: block; font-weight: bold; margin-bottom: 5px;">Instructor</label>
+                    <input type="text" id="instructor" name="instructor" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                </td>
+                <td style="padding: 10px; vertical-align: top;">
+                    <label for="especialidad" style="display: block; font-weight: bold; margin-bottom: 5px;">Especialidad</label>
+                    <input type="text" id="especialidad" name="especialidad" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; vertical-align: top;">
+                    <label for="fecha_inicio" style="display: block; font-weight: bold; margin-bottom: 5px;">Fecha y hora de inicio</label>
+                    <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                </td>
+                <td style="padding: 10px; vertical-align: top;">
+                    <label for="fecha_fin" style="display: block; font-weight: bold; margin-bottom: 5px;">Fecha y hora de término</label>
+                    <input type="datetime-local" id="fecha_fin" name="fecha_fin" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 10px; vertical-align: top;">
+                    <label for="descripcion" style="display: block; font-weight: bold; margin-bottom: 5px;">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="padding: 10px; text-align: center;">
+                    <a href="index.html" style="text-decoration: none; color: #fff; background-color: red; padding: 10px 20px; border-radius: 4px; margin-right: 10px; display: inline-block; width: 100px; text-align: center;">Regresar</a>
+                    <button type="submit" style="background-color: green; border: none; color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100px;">Guardar</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
 
 <?= $this->endSection(); ?>

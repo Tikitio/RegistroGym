@@ -2,37 +2,47 @@
 
 <?= $this->section('contenido'); ?>
 
-<table style="width: 100%; background-color: LightSeaGreen;">
-    <tr>
-        <!-- Celda vacía para margen izquierdo -->
-        <td style="width: 10px;">&nbsp;</td>
-        
-        <!-- Contenido de la tabla -->
-        <td>
-            <h3 class="my-3" id="titulo">Lista De Usuarios</h3>
-        </td>
-        <td style="text-align: right;">
-            <a href="<?= base_url('usuarios/new'); ?>" class="btn btn-success">Agregar</a>
-        </td>
-        
-        <!-- margen derecho -->
-        <td style="width: 10px;">&nbsp;</td>
-    </tr>
-</table>
+<!-- Contenedor principal -->
+<div style="width: 100%; background-color: LightSeaGreen; padding: 10px; box-sizing: border-box;">
 
-<table class="table table-hover table-bordered my-3" aria-describedby="titulo">
+    <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+     
+            <td style="width: 10px; background-color: LightSeaGreen;"></td>
+            
+            <!-- Contenido de la tabla -->
+            <td style="text-align: left; padding: 0 10px;">
+                <h3 style="margin: 0; color: white;">Lista De Clientes</h3>
+            </td>
+            <td style="text-align: left; padding: 0 10px;">
+                <!-- Buscador de clientes -->
+                <input type="text" placeholder="Búsqueda de Cliente" style="max-width: 320px; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; text-align: center;">
+            </td>
+            <td style="text-align: right; padding: 0 10px;">
+                <a href="<?= base_url('usuarios/new'); ?>" style="display: inline-block; padding: 10px 20px; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; font-weight: bold;">Agregar Cliente</a>
+            </td>
+ 
+            <td style="width: 10px; background-color: LightSeaGreen;"></td>
+        </tr>
+    </table>
+</div>
+
+
+
+
+<table  id="tablaUsuarios"  class="table table-hover table-bordered my-3" aria-describedby="titulo">
     <thead class="table">
         <tr>
-            <th scope="col" style="background-color: LightSeaGreen;">No</th>
-            <th scope="col" style="background-color: LightSeaGreen;">Nombre</th>
-            <th scope="col" style="background-color: LightSeaGreen;">Apellidos</th>
-            <th scope="col" style="background-color: LightSeaGreen;">Sexo</th>
-            <th scope="col" style="background-color: LightSeaGreen;">Telefono</th>
-            <th scope="col" style="background-color: LightSeaGreen;">Opciones</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">No.</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Nombre</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Apellidos</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Sexo</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Telefono</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Opciones</th>
         </tr>
     </thead>
 
-    <tbody>
+    <tbody id="tablaBody">
 
  <?php foreach($usuarios as $usuario) : ?>
     <tr>
@@ -78,14 +88,27 @@
 
 <?= $this->section('script'); ?>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
     var eliminaModal = document.getElementById('eliminaModal');
     eliminaModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget;
         var url = button.getAttribute('data-bs-url');
         var form = document.getElementById('deleteForm');
         form.action = url;
+    });
+
+ // Codigo JavaScript para el buscador
+    $("#bvac").keyup(function() {
+        var query = $(this).val().toLowerCase();
+        $("#tablaBody tr").each(function() {
+            var rowData = $(this).text().toLowerCase();
+            if (rowData.indexOf(query) === -1)
+                $(this).hide();
+            else
+                $(this).show();
+        });
     });
 });
 </script>

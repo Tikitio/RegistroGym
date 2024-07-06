@@ -13,6 +13,11 @@ class Usuarios extends BaseController
         $UsuariosModel = new UsuariosModel();
         $data['usuarios'] = $UsuariosModel->findAll();
 
+        // función getSexo
+        foreach ($data['usuarios'] as &$usuario) {
+            $usuario['sexo'] = $UsuariosModel->getSexo($usuario['sexo']);
+        }
+
         return view('usuarios/index', $data);
     }
 
@@ -23,18 +28,20 @@ class Usuarios extends BaseController
 
     public function create()
     {
-        $reglas =[
+        $reglas = [
             'nombres' => 'required',
             'apellidos' => 'required',
             'sexo' => 'required',
             'telefono' => 'required',
         ];
-
+        
         if (!$this->validate($reglas)) {
             return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
-        }
+        }        
 
         $post = $this->request->getPost(['nombres', 'apellidos', 'sexo', 'telefono']);
+        log_message('info', 'Datos a insertar: ' . print_r($post, true));
+        
         $UsuariosModel = new UsuariosModel();
         $UsuariosModel->insert([
             'nombres' => $post['nombres'],
@@ -42,6 +49,7 @@ class Usuarios extends BaseController
             'sexo' => $post['sexo'],
             'telefono' => $post['telefono'],
         ]);
+        
 
         return redirect()->to('usuarios');
     }
@@ -51,10 +59,10 @@ class Usuarios extends BaseController
         if ($id == null) {
             return redirect()->route('usuarios');
         }
-
+    
         $UsuariosModel = new UsuariosModel();
         $data['usuario'] = $UsuariosModel->find($id);
-
+    
         return view('usuarios/editar', $data);
     }
 

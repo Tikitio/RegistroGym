@@ -12,8 +12,10 @@ $routes->get('/', 'Home::index');
 
 $routes->resource('usuarios', ['placeholder' => '(:num)', 'except' => 'show']);
 
-$routes->get('instructores', 'Instructores::index');
-$routes->get('instructores/new', 'Instructores::new');
+$routes->resource('instructores', ['placeholder' => '(:num)', 'except' => 'show']);
+
+// $routes->get('instructores', 'Instructores::index');
+// $routes->get('instructores/new', 'Instructores::new');
 
 $routes->get('clases', 'Clases::index');
 $routes->get('clases/new', 'Clases::new');

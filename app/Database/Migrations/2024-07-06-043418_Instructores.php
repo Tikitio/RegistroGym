@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Clase extends Migration
+class Instructores extends Migration
 {
     public function up()
     {
@@ -15,37 +15,36 @@ class Clase extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
-            'grupo' => [
-                'type' => 'VARCHAR',
-                'constraint' => 60,
-            ],
-            'horario' => [
+            'nombres' => [
                 'type' => 'VARCHAR',
                 'constraint' => 50,
             ],
-            'id_instructor' => [
+            'apellidos' => [
+                'type' => 'VARCHAR',
+                'constraint' => 50,
+            ],
+            'sexo' => [
+                'type' => 'TINYINT',
+                'constraint' => 5,
+            ],
+            'telefono' => [
+                'type' => 'VARCHAR',
+                'constraint' => 15,
+            ],
+            'id_especialidad' => [
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => true,
             ],
-            'fecha_inicio' => [
-                'type' => 'DATETIME',
-            ],
-            'fecha_fin' => [
-                'type' => 'DATETIME',
-            ],
         ]);
-    
+
         $this->forge->addKey('id', true);
-    
-        // llave foránea
-        $this->forge->addForeignKey('id_instructor', 'instructores', 'id', 'CASCADE', 'CASCADE');
-    
-        $this->forge->createTable('Clases');
+        $this->forge->addForeignKey('id_especialidad', 'especialidades', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->createTable('Instructores');
     }
 
     public function down()
     {
-        $this->forge->dropTable('Clases');
+        $this->forge->dropTable('Instructores');
     }
 }

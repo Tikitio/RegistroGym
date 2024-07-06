@@ -2,47 +2,71 @@
 
 <?= $this->section('contenido'); ?>
 
-<h3 class="my-3">Nuevo empleado</h3>
+<br><br><br>
 
-<form action="#" class="row g-3" method="post" autocomplete="off">
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+<h3 style="text-align: center; color: black; margin-bottom: 20px;">Registro De Nuevo Instructor</h3>
 
-    <div class="col-md-4">
-        <label for="clave" class="form-label">Clave</label>
-        <input type="text" class="form-control" id="clave" name="clave" required autofocus>
+        <form action="<?= base_url('instructores'); ?>" method="post" autocomplete="off">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="padding: 10px; vertical-align: top;">
+                        <label for="nombres" style="display: block; font-weight: bold; margin-bottom: 5px;">Nombre</label>
+                        <input type="text" id="nombres" name="nombres" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"  value="<?= set_value('nombres'); ?>" required>
+                    </td>
+                    <td style="padding: 10px; vertical-align: top;">
+                        <label for="apellidos" style="display: block; font-weight: bold; margin-bottom: 5px;">Apellidos</label>
+                        <input type="text" id="apellidos" name="apellidos" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"  value="<?= set_value('apellidos'); ?>" required>
+                    </td>
+                </tr>
+                <tr>
+                <td style="padding: 10px; vertical-align: top;">
+                        <label for="sexo" style="display: block; font-weight: bold; margin-bottom: 5px;">Genero</label>
+                        <select class="form-select" id="sexo" name="sexo" required>
+                            <option value="">Seleccionar</option>
+                            <option value="1" <?= set_value('sexo') == 'Masculino' ? 'selected' : ''; ?>>Masculino</option>
+                            <option value="2" <?= set_value('sexo') == 'Femenino' ? 'selected' : ''; ?>>Femenino</option>
+                            <option value="3" <?= set_value('sexo') == 'Otro' ? 'selected' : ''; ?>>Otro</option>
+                        </select>
+
+                </td>
+                    <td style="padding: 10px; vertical-align: top;">
+                        <label for="id_especialidad" style="display: block; font-weight: bold; margin-bottom: 5px;">Especialidad</label>
+                        <select class="form-select" id="id_especialidad" name="id_especialidad" required>
+                        <option value="">Seleccionar</option>
+
+                        <?php foreach($especialidades as $especialidad): ?>
+
+                            <option value="<?= $especialidad['id']; ?>"><?= $especialidad['nombres']; ?></option>
+
+                            <?php endforeach; ?>
+
+                        </select>
+                    </td>
+                <tr>
+                    <td colspan="2" style="padding: 10px; vertical-align: top;">
+                        <label for="telefono" style="display: block; font-weight: bold; margin-bottom: 5px;">Teléfono</label>
+                        <input type="text" id="telefono" name="telefono" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"  value="<?= set_value('telefono'); ?>" required>
+                    </td>
+                </tr>
+                <tr>
+                <td colspan="2" style="padding: 10px; text-align: center;">
+                    <a href="<?= base_url('instructores'); ?>" style="text-decoration: none; color: #fff; background-color: red; padding: 10px 20px; border-radius: 4px; margin-right: 10px; display: inline-block; width: 100px; text-align: center;">Regresar</a>
+                    <button type="submit" style="background-color: green; border: none; color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100px;">Guardar</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 
-    <div class="col-md-8">
-        <label for="nombre" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="nombre" name="nombre" required>
-    </div>
 
-    <div class="col-md-6">
-        <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
-        <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
-    </div>
+<?= $this->endSection(); ?>
 
-    <div class="col-md-6">
-        <label for="telefono" class="form-label">Teléfono</label>
-        <input type="telefono" class="form-control" id="telefono" name="telefono" required>
-    </div>
+<?= $this->section('script'); ?>
 
-    <div class="col-md-6">
-        <label for="correo_electronico" class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control" id="correo_electronico" name="correo_electronico">
-    </div>
-
-    <div class="col-md-6">
-        <label for="departamento" class="form-label">Departamento</label>
-        <select class="form-select" id="departamento" name="departamento" required>
-            <option value="">Seleccionar</option>
-        </select>
-    </div>
-
-    <div class="col-12">
-        <a href="index.html" class="btn btn-secondary">Regresar</a>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-    </div>
-
-</form>
+   <!-- Agregar el enlace a los scripts de Bootstrap (opcional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <?= $this->endSection(); ?>
