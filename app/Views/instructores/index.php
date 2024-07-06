@@ -16,7 +16,7 @@
             </td>
             <td style="text-align: left; padding: 0 10px;">
                 <!-- Buscador de instructor -->
-                <input type="text" placeholder="Búsqueda de Instructor" style="max-width: 320px; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; text-align: center;">
+                <input type="text" placeholder="Búsqueda de Instructor" style="max-width: 320px; width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; text-align: center;" id="bvac">
             </td>
             <td style="text-align: right; padding: 0 10px;">
                 <a href="<?= base_url('instructores/new'); ?>" style="display: inline-block; padding: 10px 20px; color: white; background-color: #28a745; text-decoration: none; border-radius: 5px; font-weight: bold;">Agregar Instructor</a>
