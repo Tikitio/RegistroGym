@@ -43,6 +43,7 @@
         </tr>
     </thead>
 
+    <tbody id="tablaBody">
     <?php foreach($instructores as $instructor) : ?>
     <tr>
             <td><?= $instructor['id']; ?></td>

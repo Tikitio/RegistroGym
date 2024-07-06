@@ -3,9 +3,14 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ClasesModel;
+use App\Models\InstructoresModel;
+use App\Models\EspecialidadesModel;
+
 
 class Clases extends BaseController
 {
+    protected $helpers = ['form'];
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -13,7 +18,16 @@ class Clases extends BaseController
      */
     public function index()
     {
-        return view('clases/index'); 
+        $ClasesModel = new ClasesModel();
+        $data['clases'] = $ClasesModel->findAll();
+
+        // Obtener los nombres de las especialidades para cada clase
+        foreach ($data['clases'] as &$clase) {
+            $clase['especialidad_nombre'] = $ClasesModel->obtenerEspecialidad($clase['id_instructor']);
+            $clase['instructor_nombre'] = $ClasesModel->obtenerInstructor($clase['id_instructor']);
+        }
+
+        return view('clases/index', $data); 
     }
 
     /**
@@ -35,7 +49,14 @@ class Clases extends BaseController
      */
     public function new()
     {
-        return view('clases/nuevo'); 
+        
+        $InstructoresModel = new InstructoresModel();
+        $EspecialidadesModel = new EspecialidadesModel(); 
+
+        $data['instructores'] = $InstructoresModel->findAll();
+        $data['especialidades'] = $EspecialidadesModel->findAll(); // Obtener todas las especialidades
+
+        return view('clases/nuevo', $data);
     }
 
     /**
@@ -45,7 +66,28 @@ class Clases extends BaseController
      */
     public function create()
     {
-        //
+        $reglas =[
+            'id_instructor' => 'required|is_not_unique[especialidades.id]',
+            'fecha_inicio' => 'required',
+            'fecha_fin' => 'required',
+            'descripcion' => 'required',
+
+        ];
+
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion']);
+        $ClasesModel = new ClasesModel();
+        $ClasesModel->insert([
+            'id_instructor' => $post['id_instructor'],
+            'fecha_inicio' => $post['fecha_inicio'],
+            'fecha_fin' => $post['fecha_fin'],
+            'descripcion' => $post['descripcion'],
+        ]);
+
+        return redirect()->to('clases');
     }
 
     /**
@@ -57,7 +99,19 @@ class Clases extends BaseController
      */
     public function edit($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->route('clases');
+        }
+        
+        $ClasesModel = new ClasesModel();
+        $InstructoresModel = new InstructoresModel();
+        $EspecialidadesModel = new EspecialidadesModel(); 
+    
+        $data['instructores'] = $InstructoresModel->findAll(); 
+        $data['especialidades'] = $EspecialidadesModel->findAll();
+        $data['clase'] = $ClasesModel->find($id); 
+        
+        return view('clases/editar', $data);
     }
 
     /**
@@ -69,7 +123,31 @@ class Clases extends BaseController
      */
     public function update($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->to('clases');
+        }
+    
+        $reglas =[
+            'id_instructor' => 'required|is_not_unique[especialidades.id]',
+            'fecha_inicio' => 'required',
+            'fecha_fin' => 'required',
+            'descripcion' => 'required',
+        ];
+    
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+    
+        $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion']);
+        $ClasesModel = new ClasesModel();
+        $ClasesModel->update($id, [
+            'id_instructor' => $post['id_instructor'],
+            'fecha_inicio' => $post['fecha_inicio'],
+            'fecha_fin' => $post['fecha_fin'],
+            'descripcion' => $post['descripcion'],
+        ]);
+    
+        return redirect()->to('clases');
     }
 
     /**
@@ -81,6 +159,13 @@ class Clases extends BaseController
      */
     public function delete($id = null)
     {
-        //
-    }
+        if ($id == null) {
+            return redirect()->route('clases');
+        }
+    
+        $ClasesModel = new ClasesModel();
+        $ClasesModel->delete($id);
+    
+        return redirect()->to('clases');
+    }    
 }
