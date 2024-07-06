@@ -28,12 +28,18 @@ class Clases extends Migration
         ],
         'descripcion' => [
             'type' => 'TEXT',
-            'null' => true, // Puedes cambiar esto a 'false' si el campo no debe ser nulo
+            'null' => true, 
+        ],
+        'id_especialidad' => [
+            'type' => 'INT',
+            'constraint' => 5,
+            'unsigned' => true,
         ],
     ]);
 
     $this->forge->addKey('id', true);
     $this->forge->addForeignKey('id_instructor', 'instructores', 'id', 'CASCADE', 'CASCADE');
+    $this->forge->addForeignKey('id_especialidad', 'especialidades', 'id', 'CASCADE', 'CASCADE');
     $this->forge->createTable('Clases');
 }
 

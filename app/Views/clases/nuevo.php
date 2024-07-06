@@ -4,56 +4,58 @@
 <br><br><br>
 
 <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Nueva Clase</h3>
+    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Registro De Asignación De Clase</h3>
 
     <form action="<?= base_url('clases'); ?>" method="post" autocomplete="off">
         <table style="width: 100%; border-collapse: collapse;">
-        <tr>
-    <td colspan="2" style="padding: 10px; vertical-align: top;">
-    <label for="id_instructor" style="display: block; font-weight: bold; margin-bottom: 5px;">Instructor y Clase</label>
-<select class="form-select" id="id_instructor" name="id_instructor" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-    <option value="">Seleccionar</option>
-    <?php foreach($instructores as $instructor): ?>
-        <?php
-        // Buscar el nombre de la especialidad usando el id_especialidad del instructor
-        $especialidadNombre = '';
-        foreach ($especialidades as $especialidad) {
-            if ($especialidad['id'] == $instructor['id_especialidad']) {
-                $especialidadNombre = $especialidad['nombres'];
-                break;
-            }
-        }
-        ?>
-        <option value="<?= $instructor['id']; ?>">
-            <?= $instructor['nombres']; ?> <?= $instructor['apellidos']; ?> - <?= $especialidadNombre; ?>
-        </option>
-    <?php endforeach; ?>
-</select>
-    </td>
-</tr>
 
             <tr>
-                <td style="padding: 10px; vertical-align: top;">
-                    <label for="fecha_inicio" style="display: block; font-weight: bold; margin-bottom: 5px;">Inicio: Fecha y Hora</label>
-                    <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" value="<?= set_value('fecha_inicio'); ?>" required> 
+                <td style="padding: 10px; vertical-align: top; width: 50%;">
+                    <label for="id_instructor" style="display: block; font-weight: bold; margin-bottom: 5px;">Instructor</label>
+                    <select class="form-select" id="id_instructor" name="id_instructor" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="">Seleccionar</option>
+                        <?php foreach($instructores as $instructor): ?>
+                            <option value="<?= $instructor['id']; ?>"><?= $instructor['nombres']; ?> <?= $instructor['apellidos']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </td>
-                <td style="padding: 10px; vertical-align: top;">
-                    <label for="fecha_fin" style="display: block; font-weight: bold; margin-bottom: 5px;">Fin: Fecha y Hora</label>
-                    <input type="datetime-local" id="fecha_fin" name="fecha_fin" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" value="<?= set_value('fecha_fin'); ?>" required> 
+
+                <td style="padding: 10px; vertical-align: top; width: 50%;">
+                    <label for="id_especialidad" style="display: block; font-weight: bold; margin-bottom: 5px;">Clase</label>
+                    <select class="form-select" id="id_especialidad" name="id_especialidad" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        <option value="">Seleccionar</option>
+                        <?php foreach($especialidades as $especialidad): ?>
+                            <option value="<?= $especialidad['id']; ?>"><?= $especialidad['nombres']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </td>
             </tr>
+
+            <tr>
+                <td style="padding: 10px; vertical-align: top; width: 50%;">
+                    <label for="fecha_inicio" style="display: block; font-weight: bold; margin-bottom: 5px;">Inicio: Fecha y Hora</label>
+                    <input type="datetime-local" id="fecha_inicio" name="fecha_inicio" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" value="<?= set_value('fecha_inicio'); ?>">
+                </td>
+                <td style="padding: 10px; vertical-align: top; width: 50%;">
+                    <label for="fecha_fin" style="display: block; font-weight: bold; margin-bottom: 5px;">Fin: Fecha y Hora</label>
+                    <input type="datetime-local" id="fecha_fin" name="fecha_fin" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" value="<?= set_value('fecha_fin'); ?>">
+                </td>
+            </tr>
+
             <tr>
                 <td colspan="2" style="padding: 10px; vertical-align: top;">
                     <label for="descripcion" style="display: block; font-weight: bold; margin-bottom: 5px;">Descripción</label>
-                    <textarea id="descripcion" name="descripcion" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" value="<?= set_value('descripcion'); ?>" required></textarea>
+                    <textarea id="descripcion" name="descripcion" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"><?= set_value('descripcion'); ?></textarea>
                 </td>
             </tr>
+
             <tr>
                 <td colspan="2" style="padding: 10px; text-align: center;">
                     <a href="<?= base_url('clases'); ?>" style="text-decoration: none; color: #fff; background-color: red; padding: 10px 20px; border-radius: 4px; margin-right: 10px; display: inline-block; width: 100px; text-align: center;">Regresar</a>
                     <button type="submit" style="background-color: green; border: none; color: #fff; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100px;">Guardar</button>
                 </td>
             </tr>
+
         </table>
     </form>
 </div>

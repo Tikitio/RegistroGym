@@ -19,15 +19,11 @@ class Clases extends BaseController
     public function index()
     {
         $ClasesModel = new ClasesModel();
-        $data['clases'] = $ClasesModel->findAll();
-
-        // Obtener los nombres de las especialidades para cada clase
-        foreach ($data['clases'] as &$clase) {
-            $clase['especialidad_nombre'] = $ClasesModel->obtenerEspecialidad($clase['id_instructor']);
-            $clase['instructor_nombre'] = $ClasesModel->obtenerInstructor($clase['id_instructor']);
-        }
-
-        return view('clases/index', $data); 
+        
+        // Obtener los datos de clases con instructores y especialidades
+        $data['clases'] = $ClasesModel->getClasesConInstructoresYEspecialidades();
+        
+        return view('clases/index', $data);
     }
 
     /**
@@ -51,10 +47,11 @@ class Clases extends BaseController
     {
         
         $InstructoresModel = new InstructoresModel();
-        $EspecialidadesModel = new EspecialidadesModel(); 
+        $EspecialidadesModel = new EspecialidadesModel();
 
+        $data['especialidades'] = $EspecialidadesModel->findAll();
         $data['instructores'] = $InstructoresModel->findAll();
-        $data['especialidades'] = $EspecialidadesModel->findAll(); // Obtener todas las especialidades
+
 
         return view('clases/nuevo', $data);
     }
@@ -66,30 +63,31 @@ class Clases extends BaseController
      */
     public function create()
     {
-        $reglas =[
-            'id_instructor' => 'required|is_not_unique[especialidades.id]',
+        $reglas = [
+            'id_instructor' => 'required|is_not_unique[instructores.id]',
             'fecha_inicio' => 'required',
             'fecha_fin' => 'required',
             'descripcion' => 'required',
-
+            'id_especialidad' => 'required|is_not_unique[especialidades.id]',
         ];
-
+    
         if (!$this->validate($reglas)) {
             return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
         }
-
-        $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion']);
+    
+        $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion', 'id_especialidad']);
         $ClasesModel = new ClasesModel();
         $ClasesModel->insert([
             'id_instructor' => $post['id_instructor'],
             'fecha_inicio' => $post['fecha_inicio'],
             'fecha_fin' => $post['fecha_fin'],
             'descripcion' => $post['descripcion'],
+            'id_especialidad' => $post['id_especialidad'],
         ]);
-
+    
         return redirect()->to('clases');
     }
-
+    
     /**
      * Return the editable properties of a resource object.
      *
@@ -121,34 +119,37 @@ class Clases extends BaseController
      *
      * @return ResponseInterface
      */
-    public function update($id = null)
-    {
-        if ($id == null) {
-            return redirect()->to('clases');
-        }
-    
-        $reglas =[
-            'id_instructor' => 'required|is_not_unique[especialidades.id]',
-            'fecha_inicio' => 'required',
-            'fecha_fin' => 'required',
-            'descripcion' => 'required',
-        ];
-    
-        if (!$this->validate($reglas)) {
-            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
-        }
-    
-        $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion']);
-        $ClasesModel = new ClasesModel();
-        $ClasesModel->update($id, [
-            'id_instructor' => $post['id_instructor'],
-            'fecha_inicio' => $post['fecha_inicio'],
-            'fecha_fin' => $post['fecha_fin'],
-            'descripcion' => $post['descripcion'],
-        ]);
-    
+  
+public function update($id = null)
+{
+    if ($id == null) {
         return redirect()->to('clases');
     }
+
+    $reglas = [
+        'id_instructor' => 'required|is_not_unique[instructores.id]',
+        'fecha_inicio' => 'required',
+        'fecha_fin' => 'required',
+        'descripcion' => 'required',
+        'id_especialidad' => 'required|is_not_unique[especialidades.id]',
+    ];
+
+    if (!$this->validate($reglas)) {
+        return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+    }
+
+    $post = $this->request->getPost(['id_instructor', 'fecha_inicio', 'fecha_fin', 'descripcion', 'id_especialidad']);
+    $ClasesModel = new ClasesModel();
+    $ClasesModel->update($id, [
+        'id_instructor' => $post['id_instructor'],
+        'fecha_inicio' => $post['fecha_inicio'],
+        'fecha_fin' => $post['fecha_fin'],
+        'descripcion' => $post['descripcion'],
+        'id_especialidad' => $post['id_especialidad'],
+    ]);
+
+    return redirect()->to('clases');
+}
 
     /**
      * Delete the designated resource object from the model.

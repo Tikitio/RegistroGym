@@ -47,8 +47,8 @@
     <?php foreach($clases as $clase) : ?>
     <tr>
             <td><?= $clase['id']; ?></td>
-            <td><?= $clase['instructor_nombre']; ?></td>
-            <td><?= $clase['especialidad_nombre']; ?></td>
+            <td><?= $clase['nombre_instructor']; ?> <?= $clase['apellido_instructor']; ?></td>
+            <td><?= $clase['nombre_especialidad']; ?></td>
             <td><?= $clase['fecha_inicio']; ?></td>
             <td><?= $clase['fecha_fin']; ?></td>
             <td><?= $clase['descripcion']; ?></td>

@@ -5,7 +5,7 @@
 <br><br><br>
 
 <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Editar Usuario</h3>
+    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Editar Instructor</h3>
 
     <form action="<?= base_url('instructores/' . $instructor['id']); ?>" method="post" autocomplete="off">
         <input type="hidden" name="_method" value="PUT">
