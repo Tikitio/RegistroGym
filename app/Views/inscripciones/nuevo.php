@@ -29,12 +29,32 @@
     <select class="form-select" id="id_clase" name="id_clase" required>
         <option value="">Seleccionar</option>
         <?php foreach ($clases as $clase): ?>
+            <?php
+               
+                $especialidadNombre = '';
+                $instructorNombre = '';
+
+                foreach ($especialidades as $especialidad) {
+                    if ($especialidad['id'] == $clase['id_especialidad']) {
+                        $especialidadNombre = $especialidad['nombres']; 
+                        break;
+                    }
+                }
+
+                foreach ($instructores as $instructor) {
+                    if ($instructor['id'] == $clase['id_instructor']) {
+                        $instructorNombre = $instructor['nombres']; 
+                        break;
+                    }
+                }
+            ?>
             <option value="<?= $clase['id']; ?>" data-fecha_inicio="<?= $clase['fecha_inicio']; ?>">
-                <?= $clase['id_instructor']; ?>-<?= $clase['id_especialidad']; ?>
+                <?= $instructorNombre; ?> - <?= $especialidadNombre; ?>
             </option>
         <?php endforeach; ?>
     </select>
 </td>
+
 
 <td style="padding: 10px; vertical-align: top; width: 50%;">
     <label for="fecha_inicio" style="display: block; font-weight: bold; margin-bottom: 5px;">Inicio: Fecha y Hora</label>

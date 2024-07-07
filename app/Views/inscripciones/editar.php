@@ -5,7 +5,7 @@
 <br><br><br>
 
 <div style="max-width: 800px; margin: 0 auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Editar Inscripcion</h3>
+    <h3 style="text-align: center; color: black; margin-bottom: 20px;">Editar Inscripción</h3>
 
     <form action="<?= base_url('inscripciones/' . $inscripcion['id']); ?>" method="post" autocomplete="off">
         <input type="hidden" name="_method" value="PUT">
@@ -31,16 +31,38 @@
     </tr>
     <tr>
         <td style="padding: 10px; vertical-align: top;">
-            <label for="id_clase" style="display: block; font-weight: bold; margin-bottom: 5px;">Clase</label>
-            <select class="form-select" id="id_clase" name="id_clase" required>
-                <option value="">Seleccionar</option>
-                <?php foreach ($clases as $clase): ?>
-                    <option value="<?= $clase['id']; ?>" data-fecha_inicio="<?= $clase['fecha_inicio']; ?>"
-                        <?= isset($inscripcion['id_clase']) && $inscripcion['id_clase'] == $clase['id'] ? 'selected' : ''; ?>>
-                        <?= $clase['id_instructor']; ?>-<?= $clase['id_especialidad']; ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+        <label for="id_clase" style="display: block; font-weight: bold; margin-bottom: 5px;">Clase</label>
+<select class="form-select" id="id_clase" name="id_clase" required>
+    <option value="">Seleccionar</option>
+    <?php foreach ($clases as $clase): ?>
+        <?php
+            // Encuentra la especialidad y el instructor para esta clase
+            $especialidadNombre = '';
+            $instructorNombre = '';
+
+            foreach ($especialidades as $especialidad) {
+                if ($especialidad['id'] == $clase['id_especialidad']) {
+                    $especialidadNombre = $especialidad['nombres'];
+                    break;
+                }
+            }
+
+            foreach ($instructores as $instructor) {
+                if ($instructor['id'] == $clase['id_instructor']) {
+                    $instructorNombre = $instructor['nombres'];
+                    break;
+                }
+            }
+        ?>
+        <option value="<?= $clase['id']; ?>" data-fecha_inicio="<?= $clase['fecha_inicio']; ?>"
+            <?= isset($inscripcion['id_clase']) && $inscripcion['id_clase'] == $clase['id'] ? 'selected' : ''; ?>>
+            <?= $instructorNombre; ?> - <?= $especialidadNombre; ?>
+        </option>
+    <?php endforeach; ?>
+</select>
+
+
+
         </td>
         <td style="padding: 10px; vertical-align: top; width: 50%;">
             <label for="fecha_inicio" style="display: block; font-weight: bold; margin-bottom: 5px;">Inicio: Fecha y Hora</label>

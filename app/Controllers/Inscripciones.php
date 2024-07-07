@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\InscripcionesModel;
 use App\Models\UsuariosModel;
 use App\Models\ClasesModel;
+use App\Models\EspecialidadesModel;
+use App\Models\InstructoresModel;
 
 class Inscripciones extends BaseController
 {
@@ -43,15 +45,19 @@ class Inscripciones extends BaseController
     public function new()
     {
        // Instanciar los modelos
-       $usuariosModel = new UsuariosModel();
-       $clasesModel = new ClasesModel();
+    $usuariosModel = new UsuariosModel();
+    $clasesModel = new ClasesModel();
+    $especialidadesModel = new EspecialidadesModel();
+    $instructoresModel = new InstructoresModel();
 
-       // Obtener los datos
-       $data['usuarios'] = $usuariosModel->findAll();
-       $data['clases'] = $clasesModel->findAll();
+    // Obtener los datos
+    $data['usuarios'] = $usuariosModel->findAll();
+    $data['clases'] = $clasesModel->findAll();
+    $data['especialidades'] = $especialidadesModel->findAll();
+    $data['instructores'] = $instructoresModel->findAll();
 
-       // Pasar los datos a la vista
-       return view('inscripciones/nuevo', $data); 
+    // Pasar los datos a la vista
+    return view('inscripciones/nuevo', $data);
     }
 
     /**
@@ -98,15 +104,19 @@ class Inscripciones extends BaseController
             return redirect()->route('inscripciones');
         }
         
-        $InscripcionesModel = new InscripcionesModel();
-        $UsuariosModel = new UsuariosModel();
-        $ClasesModel = new ClasesModel(); // Instanciar el modelo de clases
+        $inscripcionesModel = new InscripcionesModel();
+        $usuariosModel = new UsuariosModel();
+        $clasesModel = new ClasesModel();
+        $especialidadesModel = new EspecialidadesModel();
+        $instructoresModel = new InstructoresModel(); 
     
-        $data['inscripcion'] = $InscripcionesModel->find($id);
-        $data['usuarios'] = $UsuariosModel->findAll(); // Asegurarse de cargar los usuarios
-        $data['clases'] = $ClasesModel->findAll(); // Obtener las clases
-    
-        return view('inscripciones/editar', $data); // Pasar todos los datos a la vista
+        $data['inscripcion'] = $inscripcionesModel->find($id);
+        $data['usuarios'] = $usuariosModel->findAll();
+        $data['clases'] = $clasesModel->findAll();
+        $data['especialidades'] = $especialidadesModel->findAll(); 
+        $data['instructores'] = $instructoresModel->findAll(); 
+        
+        return view('inscripciones/editar', $data);
     }
     
     
@@ -119,7 +129,7 @@ class Inscripciones extends BaseController
      */
     public function update($id = null)
     {
-        // Validación de los datos de entrada
+       
     $reglas = [
         'id_usuario' => 'required',
         'id_clase' => 'required',
@@ -131,10 +141,10 @@ class Inscripciones extends BaseController
         return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
     }
 
-    // Obtener los datos del formulario
+   
     $post = $this->request->getPost(['id_usuario', 'id_clase', 'telefono', 'fecha_inicio']);
 
-    // Instanciar el modelo
+    
     $InscripcionesModel = new InscripcionesModel();
 
     
@@ -150,7 +160,7 @@ class Inscripciones extends BaseController
         'fecha_inicio' => $post['fecha_inicio'],
     ]);
 
-    // Verificar si la actualización fue exitosa
+   
     if ($result === false) {
         return redirect()->back()->withInput()->with('error', 'No se pudo actualizar el registro.');
     }
