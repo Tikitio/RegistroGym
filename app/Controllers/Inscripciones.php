@@ -3,9 +3,13 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\InscripcionesModel;
+use App\Models\UsuariosModel;
+use App\Models\ClasesModel;
 
 class Inscripciones extends BaseController
 {
+    protected $helpers = ['form'];
     /**
      * Return an array of resource objects, themselves in array format.
      *
@@ -13,7 +17,10 @@ class Inscripciones extends BaseController
      */
     public function index()
     {
-        return view('inscripciones/index'); 
+        $inscripcionesModel = new InscripcionesModel();
+        $data['inscripciones'] = $inscripcionesModel->getAllInscripciones();
+
+        return view('inscripciones/index', $data);
     }
 
     /**
@@ -35,7 +42,16 @@ class Inscripciones extends BaseController
      */
     public function new()
     {
-        return view('inscripciones/nuevo'); 
+       // Instanciar los modelos
+       $usuariosModel = new UsuariosModel();
+       $clasesModel = new ClasesModel();
+
+       // Obtener los datos
+       $data['usuarios'] = $usuariosModel->findAll();
+       $data['clases'] = $clasesModel->findAll();
+
+       // Pasar los datos a la vista
+       return view('inscripciones/nuevo', $data); 
     }
 
     /**
@@ -45,7 +61,28 @@ class Inscripciones extends BaseController
      */
     public function create()
     {
-        //
+        $reglas =[
+            'id_usuario' => 'required',
+            'id_clase' => 'required',
+            'telefono' => 'required',
+            'fecha_inicio' => 'required',
+
+        ];
+
+        if (!$this->validate($reglas)) {
+            return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+        }
+
+        $post = $this->request->getPost(['id_usuario', 'id_clase', 'telefono', 'fecha_inicio']);
+        $InscripcionesModel = new InscripcionesModel();
+        $InscripcionesModel->insert([
+            'id_usuario' => $post['id_usuario'],
+            'id_clase' => $post['id_clase'],
+            'telefono' => $post['telefono'],
+            'fecha_inicio' => $post['fecha_inicio'],
+        ]);
+
+        return redirect()->to('inscripciones');
     }
 
     /**
