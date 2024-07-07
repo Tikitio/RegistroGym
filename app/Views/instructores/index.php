@@ -34,8 +34,7 @@
     <thead class="table">
         <tr>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">No.</th>
-            <th scope="col" style="background-color: LightSeaGreen; color: white;">Nombre</th>
-            <th scope="col" style="background-color: LightSeaGreen; color: white;">Apellidos</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Instructor</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Sexo</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Especialidad</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Telefono</th>
@@ -47,8 +46,7 @@
     <?php foreach($instructores as $instructor) : ?>
     <tr>
             <td><?= $instructor['id']; ?></td>
-            <td><?= $instructor['nombres']; ?></td>
-            <td><?= $instructor['apellidos']; ?></td>
+            <td><?= $instructor['nombres']; ?> <?= $instructor['apellidos']; ?></td>
             <td><?= $instructor['sexo']; ?></td>
             <td><?= $instructor['id_especialidad']; ?></td>
             <td><?= $instructor['telefono']; ?></td>
@@ -71,7 +69,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Estás seguro de que deseas eliminar este usuario?
+                ¿Estás seguro de que deseas eliminar este instructor?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

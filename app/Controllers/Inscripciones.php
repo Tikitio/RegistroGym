@@ -94,9 +94,22 @@ class Inscripciones extends BaseController
      */
     public function edit($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->route('inscripciones');
+        }
+        
+        $InscripcionesModel = new InscripcionesModel();
+        $UsuariosModel = new UsuariosModel();
+        $ClasesModel = new ClasesModel(); // Instanciar el modelo de clases
+    
+        $data['inscripcion'] = $InscripcionesModel->find($id);
+        $data['usuarios'] = $UsuariosModel->findAll(); // Asegurarse de cargar los usuarios
+        $data['clases'] = $ClasesModel->findAll(); // Obtener las clases
+    
+        return view('inscripciones/editar', $data); // Pasar todos los datos a la vista
     }
-
+    
+    
     /**
      * Add or update a model resource, from "posted" properties.
      *
@@ -106,7 +119,43 @@ class Inscripciones extends BaseController
      */
     public function update($id = null)
     {
-        //
+        // Validación de los datos de entrada
+    $reglas = [
+        'id_usuario' => 'required',
+        'id_clase' => 'required',
+        'telefono' => 'required',
+        'fecha_inicio' => 'required',
+    ];
+
+    if (!$this->validate($reglas)) {
+        return redirect()->back()->withInput()->with('error', $this->validator->listErrors());
+    }
+
+    // Obtener los datos del formulario
+    $post = $this->request->getPost(['id_usuario', 'id_clase', 'telefono', 'fecha_inicio']);
+
+    // Instanciar el modelo
+    $InscripcionesModel = new InscripcionesModel();
+
+    
+    if ($id === null) {
+        return redirect()->to('inscripciones')->with('error', 'No se ha proporcionado un ID válido.');
+    }
+
+
+    $result = $InscripcionesModel->update($id, [
+        'id_usuario' => $post['id_usuario'],
+        'id_clase' => $post['id_clase'],
+        'telefono' => $post['telefono'],
+        'fecha_inicio' => $post['fecha_inicio'],
+    ]);
+
+    // Verificar si la actualización fue exitosa
+    if ($result === false) {
+        return redirect()->back()->withInput()->with('error', 'No se pudo actualizar el registro.');
+    }
+
+    return redirect()->to('inscripciones');
     }
 
     /**
@@ -118,6 +167,13 @@ class Inscripciones extends BaseController
      */
     public function delete($id = null)
     {
-        //
+        if ($id == null) {
+            return redirect()->route('inscripciones');
+        }
+    
+        $InscripcionesModel = new InscripcionesModel();
+        $InscripcionesModel->delete($id);
+    
+        return redirect()->to('inscripciones');
     }
 }

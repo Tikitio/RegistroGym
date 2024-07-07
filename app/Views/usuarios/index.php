@@ -34,8 +34,7 @@
     <thead class="table">
         <tr>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">No.</th>
-            <th scope="col" style="background-color: LightSeaGreen; color: white;">Nombre</th>
-            <th scope="col" style="background-color: LightSeaGreen; color: white;">Apellidos</th>
+            <th scope="col" style="background-color: LightSeaGreen; color: white;">Cliente</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Sexo</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Telefono</th>
             <th scope="col" style="background-color: LightSeaGreen; color: white;">Opciones</th>
@@ -47,8 +46,7 @@
  <?php foreach($usuarios as $usuario) : ?>
     <tr>
             <td><?= $usuario['id']; ?></td>
-            <td><?= $usuario['nombres']; ?></td>
-            <td><?= $usuario['apellidos']; ?></td>
+            <td><?= $usuario['nombres']; ?> <?= $usuario['apellidos']; ?></td>
             <td><?= $usuario['sexo']; ?></td>
             <td><?= $usuario['telefono']; ?></td>
             <td> <a href="<?= base_url('usuarios/' . $usuario['id'] . '/edit'); ?>" class="btn btn-warning btn-sm me-2">Editar</a>
